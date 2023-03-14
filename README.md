@@ -1,1 +1,4 @@
-# personal_accountant
+# Personal Accountant With Django
+
+
+A Simple Income and Expense System .
