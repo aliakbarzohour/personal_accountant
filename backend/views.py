@@ -8,20 +8,23 @@ from backend.models import User, Token, Expense, Income
 
 # Create your views here.
 
+def Home(request):
+    return render(request, 'home.html')
+
 
 @csrf_exempt
 def submit_expenes(request):
     """ Submit an expense """
 
-    #TODO; validate data user might be fake . amount might be fake , token might be fake ...
+    # TODO; validate data user might be fake . amount might be fake , token might be fake ...
     this_token = request.POST['token']
-    this_user = User.objects.filter(token__token = this_token).get()
+    this_user = User.objects.filter(token__token=this_token).get()
     if 'date' not in request.POST:
         date = datetime.now()
 
-    Expense.objects.create(user = this_user, amount=request.POST['amount'],
-                        text = request.POST['text'], date = date)
-    
+    Expense.objects.create(user=this_user, amount=request.POST['amount'],
+                           text=request.POST['text'], date=date)
+
     return JsonResponse({
         'status': 'OK, POSTED .',
     }, encoder=json.JSONEncoder)
