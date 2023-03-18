@@ -12,6 +12,7 @@ def Home(request):
     return render(request, 'home.html')
 
 
+# Expenses price view
 @csrf_exempt
 def submit_expenes(request):
     """ Submit an expense """
@@ -26,11 +27,12 @@ def submit_expenes(request):
                            text=request.POST['text'], date=date)
 
     return JsonResponse({
-        'status': 'OK, POSTED .',
+        'status': 'OK',
     }, encoder=json.JSONEncoder)
 
-    # return render(request, '2.html')
 
+
+# Incomes Price view
 @csrf_exempt
 def submit_incomes(request):
     """ Submit an expense """
@@ -42,10 +44,8 @@ def submit_incomes(request):
         date = datetime.now()
 
     Income.objects.create(user=this_user, amount=request.POST['amount'],
-                           text=request.POST['text'], date=date)
+                          text=request.POST['text'], date=date)
 
     return JsonResponse({
-        'status': 'OK, POSTED .',
+        'status': 'OK',
     }, encoder=json.JSONEncoder)
-
-    # return render(request, '2.html')
