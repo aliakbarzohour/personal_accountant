@@ -3,3 +3,4 @@ using ...
 Django FrameWork
 regex 
 python librarys like ( requests, json, csrf )
+bash script
