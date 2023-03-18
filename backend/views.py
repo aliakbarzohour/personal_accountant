@@ -1,17 +1,29 @@
+from datetime import datetime
 from django.shortcuts import render
 from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
+from backend.models import User, Token, Expense, Income
+
+
 # Create your views here.
 
 
 @csrf_exempt
 def submit_expenes(request):
-    return render(request, 'home.html')
+    """ Submit an expense """
 
-    print(request.POST)
+    #TODO; validate data user might be fake . amount might be fake , token might be fake ...
+    this_token = request.POST['token']
+    this_user = User.objects.filter(token__token = this_token).get()
+    if 'date' not in request.POST:
+        date = datetime.now()
+
+    Expense.objects.create(user = this_user, amount=request.POST['amount'],
+                        text = request.POST['text'], date = date)
+    
     return JsonResponse({
-        'status': 'oK',
+        'status': 'OK, POSTED .',
     }, encoder=json.JSONEncoder)
 
     # return render(request, '2.html')
