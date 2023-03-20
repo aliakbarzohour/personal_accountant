@@ -31,7 +31,7 @@ class Income(models.Model):
     
 
 
-class Passwordresetcodes(models.model):
+class Passwordresetcodes(models.Model):
     code = models.CharField(max_length=32)
     email = models.CharField(max_length=120)
     time = models.DateField()
