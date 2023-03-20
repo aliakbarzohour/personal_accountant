@@ -70,11 +70,11 @@ def register(request):
                 email=email, time=now, code=code, username=username, password=password)
             temporarycode.save()
             message = PMMail(api_key=settings.POSTMARK_API_TOKEN,
-                             subject="فعال سازی اکانت تودو",
-                             sender="jadi@jadi.net",
+                             subject="فعال سازی اکانت ",
+                             sender="Aliakbar Zohour",
                              to=email,
-                             text_body="برای فعال سازی ایمیلی تودویر خود روی لینک روبرو کلیک کنید: http://todoer.ir/accounts/register/?email={}&code={}".format(
-                                 email, code),
+                             # TODO: Build a server for deploy 
+                             text_body="برای فعال سازی ایمیلی خود روی لینک روبرو کلیک کنید: https://???/accounts/register/?email={}&code={}".format(email, code),
                              tag="Create account")
             message.send()
             context = {
@@ -92,12 +92,12 @@ def register(request):
         # if code is in temporary db, read the data and create the user
         if Passwordresetcodes.objects.filter(code=code).exists():
             new_temp_user = Passwordresetcodes.objects.get(code=code)
-            newuser = User.objects.create(
-                username=new_temp_user.username, password=new_temp_user.password, email=email)
+            newuser = User.objects.create(username=new_temp_user.username, password=new_temp_user.password, email=email)
+            this_token = random_str(48)
+            token = Token.objects.create(user=newuser, token=this_token)
             # delete the temporary activation code from db
             Passwordresetcodes.objects.filter(code=code).delete()
-            context = {
-                'message': 'اکانت شما فعال شد. لاگین کنید - البته اگر دوست داشتی'}
+            context = {'message': 'اکانت شما ساخته شد . توکن شما {} است . آن را دخیره کنید  چون دیگر نمایش داده نخواهد شد !'.format(this_token)}
             return render(request, 'login.html', context)
         else:
             context = {
