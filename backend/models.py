@@ -28,3 +28,12 @@ class Income(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
         return "{} - {}".format(self.date, self.amount)
+    
+
+
+class Passwordresetcodes(models.model):
+    code = models.CharField(max_length=32)
+    email = models.CharField(max_length=120)
+    time = models.DateField()
+    username = models.CharField(max_length=50)
+    password = models.CharField(max_length=50)
