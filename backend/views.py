@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from datetime import datetime
 import string
 import requests
@@ -29,29 +31,9 @@ def get_client_ip(request):
     return ip
 
 
-def grecaptcha_verify(request):
-    data = request.POST
-    captcha_rs = data.get('g-recaptcha-response')
-    url = "https://www.google.com/recaptcha/api/siteverify"
-    params = {
-        'secret': settings.RECAPTCHA_SECRET_KEY,
-        'response': captcha_rs,
-        'remoteip': get_client_ip(request)
-    }
-    verify_rs = requests.get(url, params=params, verify=True)
-    verify_rs = verify_rs.json()
-    return verify_rs.get("success", False)
-
-
 def register(request):
     # form is filled. if not spam, generate code and save in db, wait for email confirmation, return message
-    if request.POST.has_key('requestcode'):
-        # is this spam? check reCaptcha
-        if not grecaptcha_verify(request):  # captcha was not correct
-            # TODO: forgot password
-            context = {'message': 'کپچای گوگل درست وارد نشده بود. شاید ربات هستید؟ کد یا کلیک یا تشخیص عکس زیر فرم را درست پر کنید. ببخشید که فرم به شکل اولیه برنگشته!'}
-            return render(request, 'register.html', context)
-
+    if request.POST.__contains__('requestcode'):
         # duplicate email
         if User.objects.filter(email=request.POST['email']).exists():
             # TODO: forgot password
@@ -86,7 +68,7 @@ def register(request):
                 'message': 'متاسفانه این نام کاربری قبلا استفاده شده است. از نام کاربری دیگری استفاده کنید. ببخشید که فرم ذخیره نشده. درست می شه'}
             # TODO: keep the form data
             return render(request, 'register.html', context)
-    elif request.GET.has_key('code'):
+    elif request.GET.__contains__('code'):
         email = request.GET['email']
         code = request.GET['code']
         # if code is in temporary db, read the data and create the user
