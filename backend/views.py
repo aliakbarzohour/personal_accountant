@@ -17,7 +17,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 
-
+# Let's Make a Rondom string
 def random_str(N): return ''.join(random.SystemRandom().choice(
     string.ascii_uppercase + string.ascii_lowercase + string.digits))
 
