@@ -1,6 +1,7 @@
 using ...
 
-Django FrameWork
-regex 
-python librarys like ( requests, json, csrf )
-bash script
+* Django FrameWork
+* regex 
+* python librarys like ( requests, json, csrf )
+* Bashscript
+* Bootstrap 5
